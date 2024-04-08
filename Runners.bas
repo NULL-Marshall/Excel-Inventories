@@ -1,7 +1,7 @@
 'Pull information from 'Data' sheet to propogate Headers and Footers.
 'Version 1.0
 
-Sub UpdateRunners(WS As Worksheet)
+Sub Update(WS As Worksheet)
     Dim Data As Worksheet
     Dim searchRange As Range
     Dim foundCell As Range
