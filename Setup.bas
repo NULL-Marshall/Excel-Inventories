@@ -1,3 +1,6 @@
+'Version 1.0
+'Creaded by Marshall
+
 Sub LoadModule(name As String)
     Dim url As String
     Dim httpRequest As Object
