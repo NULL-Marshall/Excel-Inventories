@@ -5,16 +5,16 @@ Sub LoadModule(name As String)
     Dim existingModule As Object
     Dim newModule As Object
     
-    url = "https://raw.githubusercontent.com/NULL-Marshall/Excel-Inventories/main/" + name + ".bas"
+    url = "https://raw.githubusercontent.com/NULL-Marshall/Excel-Inventories/main/" & name & ".bas"
     Set httpRequest = CreateObject("MSXML2.XMLHTTP")
     httpRequest.Open "GET", url, False
     httpRequest.send
     
     If httpRequest.Status = 200 Then
         responseBody = httpRequest.responseText
-        
+
         On Error Resume Next
-            Set existingModule = ThisWorkbook.VBProject.VBComponents(name)
+        Set existingModule = ThisWorkbook.VBProject.VBComponents(name)
         On Error GoTo 0
         
         If Not existingModule Is Nothing Then
@@ -23,14 +23,14 @@ Sub LoadModule(name As String)
             MsgBox "Module '" & name & "' updated successfully!", vbInformation
         Else
             Set newModule = ThisWorkbook.VBProject.VBComponents.Add(1)
-            newModule.name = name
+            newModule.Name = name
             newModule.CodeModule.AddFromString responseBody
             MsgBox "Module '" & name & "' imported successfully!", vbInformation
         End If
     Else
         MsgBox "Failed to import module. Error: " & httpRequest.Status, vbExclamation
     End If
-
+    
     Set httpRequest = Nothing
 End Sub
 
@@ -47,19 +47,27 @@ Sub CheckModule(name As String, version As String, desc As String)
     
     If Not foundCell Is Nothing Then
         If foundCell.Offset(0, 1).Value < Val(version) Then
-            foundCell.Offset(0, 1).Value = version
-            foundCell.Offset(0, 2).Value = Format(Date, "MM/DD/YYYY")
-            foundCell.Offset(0, 3).Value = desc
-
-            LoadModule name
+            If MsgBox("A new version of '" & name & "' is available. Do you want to update?", vbQuestion + vbYesNo) = vbYes Then
+                foundCell.Offset(0, 1).Value = version
+                foundCell.Offset(0, 2).Value = Format(Date, "MM/DD/YYYY")
+                foundCell.Offset(0, 3).Value = desc
+    
+                LoadModule name
+            Else
+                MsgBox "Update canceled by user.", vbInformation
+            End If
         End If
     Else
-        WS.Cells(lastRow + 1, 1).Value = name
-        WS.Cells(lastRow + 1, 2).Value = version
-        WS.Cells(lastRow + 1, 3).Value = Format(Date, "MM/DD/YYYY")
-        WS.Cells(lastRow + 1, 4).Value = desc
+        If MsgBox("Module '" & name & "' is not installed. Do you want to install?", vbQuestion + vbYesNo) = vbYes Then
+            WS.Cells(lastRow + 1, 1).Value = name
+            WS.Cells(lastRow + 1, 2).Value = version
+            WS.Cells(lastRow + 1, 3).Value = Format(Date, "MM/DD/YYYY")
+            WS.Cells(lastRow + 1, 4).Value = desc
 
-        LoadModule name
+            LoadModule name
+        Else
+            MsgBox "Install canceled by user.", vbInformation
+        End If
     End If
 End Sub
 
