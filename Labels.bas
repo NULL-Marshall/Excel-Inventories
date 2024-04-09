@@ -1,4 +1,4 @@
-'Version 1.2
+'Version 1.3
 'Creaded by Marshall
 
 Sub Update()
@@ -8,7 +8,9 @@ Sub Update()
     Dim searchRange As Range
     Dim foundCell As Range
     Dim i As Long
-    
+
+    Application.ScreenUpdating = False
+
     Set ws = ThisWorkbook.Sheets("Data")
     lastRow = ws.Cells(ws.Rows.count, "A").End(xlUp).Row
     
@@ -27,6 +29,9 @@ Sub Update()
             dataArray(i, 3) = ""
         End If
     Next i
-    
+
+    ws.Range("A8:C" & lastRow).ClearContents
     ws.Range("A8").Resize(UBound(dataArray, 1), UBound(dataArray, 2)).Value = dataArray
+
+    Application.ScreenUpdating = True
 End Sub
