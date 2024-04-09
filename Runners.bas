@@ -1,4 +1,4 @@
-'Version 1.1
+'Version 1.2
 'Created by Marshall
 
 Sub Update(WS As Worksheet)
@@ -9,10 +9,6 @@ Sub Update(WS As Worksheet)
     Dim description As String
     
     Application.ScreenUpdating = False
-
-    If WS.name = "Data" Then
-        Call Labels.Update
-    End If
 
     WS.PageSetup.TopMargin = 60
     WS.PageSetup.BottomMargin = 60
