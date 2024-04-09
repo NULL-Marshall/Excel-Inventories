@@ -90,6 +90,12 @@ Public Sub Update()
     If httpRequest.Status = 200 Then
         responseBody = httpRequest.responseText
         linesArray = Split(responseBody, vbCrLf)
+        If UBound(linesArray) = 0 Then
+            linesArray = Split(responseBody, vbLf)
+        End If
+        If UBound(linesArray) = 0 Then
+            linesArray = Split(responseBody, vbCr)
+        End If
         ReDim dataArray2D(1 To UBound(linesArray) + 1, 1 To 3)
         
         For i = LBound(linesArray) To UBound(linesArray)
@@ -108,7 +114,7 @@ Public Sub Update()
 
     Set httpRequest = Nothing
 
-    For i = LBound(dataArray2D, 1) To UBound(dataArray2D, 1)
+    For i = LBound(dataArray2D, 1) To UBound(dataArray2D, 1) - 1
         If Not IsEmpty(dataArray2D(i, 1)) Then
             Call Modules.Check(dataArray2D(i, 1), dataArray2D(i, 2), dataArray2D(i, 3))
         End If
