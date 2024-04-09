@@ -1,49 +1,35 @@
-'Version 1.0
+'Version 1.1
 'Creaded by Marshall
 
 Sub Update()
     Dim ws As Worksheet
     Dim lastRow As Long
-    Dim dataRange As Range
     Dim dataArray() As Variant
-    Dim sheetName As String
-    Dim i As Long, j As Long
+    Dim searchRange As Range
+    Dim foundCell As Range
+    Dim i As Long
     
-    ' Set the worksheet where the data is located
-    Set ws = ThisWorkbook.Worksheets("Data")
+    Set ws = ThisWorkbook.Sheets("Data")
+    lastRow = ws.Cells(ws.Rows.count, "A").End(xlUp).Row
     
-    ' Find the last row in column A (assuming data starts from A8)
-    lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
+    ReDim dataArray(1 To ThisWorkbook.Sheets.count, 1 To 3)
+    Set searchRange = ws.Range("A8:A" & lastRow)
     
-    ' Check if there is data in the range
-    If lastRow >= 8 Then
-        ' Read the data into a 2D array
-        Set dataRange = ws.Range("A8:C" & lastRow)
-        dataArray = dataRange.Value
+    For i = 1 To ThisWorkbook.Sheets.count
+        dataArray(i, 1) = ThisWorkbook.Sheets(i).name
+        Set foundCell = searchRange.Find(What:=ThisWorkbook.Sheets(i).name, LookIn:=xlValues, LookAt:=xlWhole)
         
-        ' Clear the data range
-        dataRange.ClearContents
+        If Not foundCell Is Nothing Then
+            dataArray(i, 2) = foundCell.Offset(0, 1).Value
+            dataArray(i, 3) = foundCell.Offset(0, 2).Value
+        Else
+            dataArray(i, 2) = ""
+            dataArray(i, 3) = ""
+        End If
         
-        ' Fill in the list of sheet names in column A
-        For i = 1 To ThisWorkbook.Sheets.Count
-            ws.Cells(i, 1).Value = ThisWorkbook.Sheets(i).Name
-        Next i
-        
-        ' Loop through the dataArray and copy data to corresponding sheets
-        For i = LBound(dataArray, 1) To UBound(dataArray, 1)
-            sheetName = dataArray(i, 1)
-            For j = 1 To ThisWorkbook.Sheets.Count
-                If ThisWorkbook.Sheets(j).Name = sheetName Then
-                    ' Copy data to the corresponding sheet
-                    ThisWorkbook.Sheets(j).Cells(ThisWorkbook.Sheets(j).Rows.Count, "A").End(xlUp).Offset(1, 0).Resize(1, UBound(dataArray, 2)).Value = _
-                        Application.Index(dataArray, i, 0)
-                    Exit For
-                End If
-            Next j
-        Next i
-        
-        MsgBox "Data processed and populated into sheets.", vbInformation
-    Else
-        MsgBox "No data found in the specified range.", vbExclamation
-    End If
+        MsgBox (dataArray(i, 1) & " - " & dataArray(i, 2) & " - " & dataArray(i, 3))
+    Next i
+    
+    ' Write updated dataArray back to the range A8:C
+    ws.Range("A8").Resize(UBound(dataArray, 1), UBound(dataArray, 2)).Value = dataArray
 End Sub
