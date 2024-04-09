@@ -21,7 +21,6 @@ Sub Update(WS As Worksheet)
         description = foundCell.Offset(0, 1).Value
         updated = foundCell.Offset(0, 2).Value
     Else
-        MsgBox "Data not found for: " + WS.name
         description = ""
         updated = ""
     End If
