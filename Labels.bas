@@ -1,4 +1,4 @@
-'Version 1.1
+'Version 1.2
 'Creaded by Marshall
 
 Sub Update()
@@ -26,10 +26,7 @@ Sub Update()
             dataArray(i, 2) = ""
             dataArray(i, 3) = ""
         End If
-        
-        MsgBox (dataArray(i, 1) & " - " & dataArray(i, 2) & " - " & dataArray(i, 3))
     Next i
     
-    ' Write updated dataArray back to the range A8:C
     ws.Range("A8").Resize(UBound(dataArray, 1), UBound(dataArray, 2)).Value = dataArray
 End Sub

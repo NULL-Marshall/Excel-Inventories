@@ -1,2 +1,2 @@
 Runners | 1.2 | Update headers and footers
-Labels | 1.1 | Update and display sheets for description and date editing
+Labels | 1.2 | Update and display sheets for description and date editing
