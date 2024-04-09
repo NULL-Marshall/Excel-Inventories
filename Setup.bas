@@ -14,7 +14,7 @@ Sub LoadModule(name As String)
         responseBody = httpRequest.responseText
         
         On Error Resume Next
-            Set existingModule = ThisWorkbook.VBProject.VBComponents(fileName)
+            Set existingModule = ThisWorkbook.VBProject.VBComponents(name)
         On Error GoTo 0
         
         If Not existingModule Is Nothing Then
@@ -35,18 +35,18 @@ Sub LoadModule(name As String)
 End Sub
 
 Sub CheckModule(name As String, version As String, desc As String)
-    Dim ws As Worksheet
+    Dim WS As Worksheet
     Dim lastRow As Long
     Dim foundCell As Range
     Dim searchRange As Range
     
-    Set ws = ThisWorkbook.Worksheets("Modules")
-    lastRow = ws.Cells(ws.Rows.count, "A").End(xlUp).Row
-    Set searchRange = ws.Range(ws.Cells(2, 1), ws.Cells(lastRow, 1))
+    Set WS = ThisWorkbook.Worksheets("Modules")
+    lastRow = WS.Cells(WS.Rows.count, "A").End(xlUp).Row
+    Set searchRange = WS.Range(WS.Cells(2, 1), WS.Cells(lastRow, 1))
     Set foundCell = searchRange.Find(What:=name, LookIn:=xlValues, LookAt:=xlWhole)
     
     If Not foundCell Is Nothing Then
-        If foundCell.Offset(0, 1).Value < version Then
+        If foundCell.Offset(0, 1).Value < Val(version) Then
             foundCell.Offset(0, 1).Value = version
             foundCell.Offset(0, 2).Value = Format(Date, "MM/DD/YYYY")
             foundCell.Offset(0, 3).Value = desc
@@ -54,10 +54,10 @@ Sub CheckModule(name As String, version As String, desc As String)
             LoadModule name
         End If
     Else
-        ws.Cells(lastRow + 1, 1).Value = name
-        ws.Cells(lastRow + 1, 2).Value = version
-        ws.Cells(lastRow + 1, 3).Value = Format(Date, "MM/DD/YYYY")
-        ws.Cells(lastRow + 1, 4).Value = desc
+        WS.Cells(lastRow + 1, 1).Value = name
+        WS.Cells(lastRow + 1, 2).Value = version
+        WS.Cells(lastRow + 1, 3).Value = Format(Date, "MM/DD/YYYY")
+        WS.Cells(lastRow + 1, 4).Value = desc
 
         LoadModule name
     End If
@@ -71,7 +71,7 @@ Public Sub UpdateModules()
     Dim dataArray2D() As String
     Dim i As Long
     
-    url = "https://raw.githubusercontent.com/NULL-Marshall/Excel-Inventories/main/Versions.txt.bas"
+    url = "https://raw.githubusercontent.com/NULL-Marshall/Excel-Inventories/main/Versions.txt"
     Set httpRequest = CreateObject("MSXML2.XMLHTTP")
     httpRequest.Open "GET", url, False
     httpRequest.send
@@ -88,7 +88,7 @@ Public Sub UpdateModules()
                 
                 dataArray2D(i + 1, 1) = parts(0)
                 dataArray2D(i + 1, 2) = parts(1)
-                dataArray2D(i + 1, 3) = parts(2)
+                dataArray2D(i + 1, 3) = Left(parts(2), Len(parts(2)) - 1)
             End If
         Next i
     Else
