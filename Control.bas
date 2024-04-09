@@ -1,4 +1,4 @@
-'Version 1.1
+'Version 1.2
 'Creaded by Marshall
 
 Sub Load(name As String)
@@ -55,7 +55,7 @@ Sub Check(name As String, version As String, desc As String)
                 foundCell.Offset(0, 2).Value = Format(Date, "MM/DD/YYYY")
                 foundCell.Offset(0, 3).Value = desc
     
-                Modules.Load name
+                Control.Load name
             Else
                 MsgBox "Update canceled by user.", vbInformation
             End If
@@ -67,7 +67,7 @@ Sub Check(name As String, version As String, desc As String)
             WS.Cells(lastRow + 1, 3).Value = Format(Date, "MM/DD/YYYY")
             WS.Cells(lastRow + 1, 4).Value = desc
 
-            Modules.Load name
+            Control.Load name
         Else
             MsgBox "Install canceled by user.", vbInformation
         End If
@@ -116,7 +116,7 @@ Public Sub Update()
 
     For i = LBound(dataArray2D, 1) To UBound(dataArray2D, 1) - 1
         If Not IsEmpty(dataArray2D(i, 1)) Then
-            Call Modules.Check(dataArray2D(i, 1), dataArray2D(i, 2), dataArray2D(i, 3))
+            Call Control.Check(dataArray2D(i, 1), dataArray2D(i, 2), dataArray2D(i, 3))
         End If
     Next i
 End Sub
