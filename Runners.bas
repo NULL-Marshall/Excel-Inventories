@@ -1,5 +1,5 @@
-'Pull information from 'Data' sheet to propogate Headers and Footers.
-'Version 1.0
+'Version 1.2
+'Created by Marshall
 
 Sub Update(WS As Worksheet)
     Dim Data As Worksheet
@@ -9,7 +9,7 @@ Sub Update(WS As Worksheet)
     Dim description As String
     
     Application.ScreenUpdating = False
-    
+
     WS.PageSetup.TopMargin = 60
     WS.PageSetup.BottomMargin = 60
     
