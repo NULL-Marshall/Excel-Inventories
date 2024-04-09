@@ -1,4 +1,7 @@
-Sub LoadModule(name As String)
+'Version 1.0
+'Creaded by Marshall
+
+Sub Load(name As String)
     Dim url As String
     Dim httpRequest As Object
     Dim responseBody As String
@@ -34,7 +37,7 @@ Sub LoadModule(name As String)
     Set httpRequest = Nothing
 End Sub
 
-Sub CheckModule(name As String, version As String, desc As String)
+Sub Check(name As String, version As String, desc As String)
     Dim WS As Worksheet
     Dim lastRow As Long
     Dim foundCell As Range
@@ -52,7 +55,7 @@ Sub CheckModule(name As String, version As String, desc As String)
                 foundCell.Offset(0, 2).Value = Format(Date, "MM/DD/YYYY")
                 foundCell.Offset(0, 3).Value = desc
     
-                LoadModule name
+                Modules.Load name
             Else
                 MsgBox "Update canceled by user.", vbInformation
             End If
@@ -64,14 +67,14 @@ Sub CheckModule(name As String, version As String, desc As String)
             WS.Cells(lastRow + 1, 3).Value = Format(Date, "MM/DD/YYYY")
             WS.Cells(lastRow + 1, 4).Value = desc
 
-            LoadModule name
+            Modules.Load name
         Else
             MsgBox "Install canceled by user.", vbInformation
         End If
     End If
 End Sub
 
-Public Sub UpdateModules()
+Public Sub Update()
     Dim url As String
     Dim httpRequest As Object
     Dim responseBody As String
@@ -107,7 +110,7 @@ Public Sub UpdateModules()
 
     For i = LBound(dataArray2D, 1) To UBound(dataArray2D, 1)
         If Not IsEmpty(dataArray2D(i, 1)) Then
-            Call CheckModule(dataArray2D(i, 1), dataArray2D(i, 2), dataArray2D(i, 3))
+            Call Modules.Check(dataArray2D(i, 1), dataArray2D(i, 2), dataArray2D(i, 3))
         End If
     Next i
 End Sub
