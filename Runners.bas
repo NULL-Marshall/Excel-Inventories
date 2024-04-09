@@ -1,4 +1,4 @@
-'Version 1.2
+'Version 1.3
 'Created by Marshall
 
 Sub Update(WS As Worksheet)
@@ -21,7 +21,6 @@ Sub Update(WS As Worksheet)
         description = foundCell.Offset(0, 1).Value
         updated = foundCell.Offset(0, 2).Value
     Else
-        MsgBox "Data not found for: " + WS.name
         description = ""
         updated = ""
     End If
