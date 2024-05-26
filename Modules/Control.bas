@@ -117,7 +117,7 @@ Public Sub Update()
                 dataArray2D(i + 1, 1) = parts(0)
                 dataArray2D(i + 1, 2) = parts(1)
                 dataArray2D(i + 1, 3) = parts(2)
-                dataArray2D(i + 1, 4) = Left(parts(3), Len(parts(3)) - 1)
+                dataArray2D(i + 1, 4) = Left(parts(3), Len(parts(3)))
             End If
         Next i
     Else
