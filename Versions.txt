@@ -1,4 +1,4 @@
-M | Control | 1.3 | Contol software for downloading and updating modules
+M | Control | 1.4 | Contol software for downloading and updating modules
 M | Runners | 1.3 | Update headers and footers
 M | Labels | 1.3 | Update and display sheets for description and date editing
 M | Linking | 1.2 | Update connected sheets as defined in Linking sheet
