@@ -1,4 +1,4 @@
-'Version 1.3
+'Version 1.4
 'Creaded by Marshall
 
 Sub Load(name As String, isModule As Boolean)
@@ -7,14 +7,15 @@ Sub Load(name As String, isModule As Boolean)
     Dim responseBody As String
     Dim existingComponent As Object
     Dim newComponent As Object
-    Dim componentType As VbComponentType
+    Dim componentType As Integer
 
+    ' Set the URL and component type based on whether it's a module or a class
     If isModule Then
-        url = "https://raw.githubusercontent.com/NULL-Marshall/Excel-Inventories/main/Modules/" & name & ".bas"
-        componentType = vbext_ct_StdModule
+        url = "https://raw.githubusercontent.com/NULL-Marshall/Excel-Inventories/main/modules/" & name & ".bas"
+        componentType = 1  ' vbext_ct_StdModule is 1
     Else
-        url = "https://raw.githubusercontent.com/NULL-Marshall/Excel-Inventories/main/Classes/" & name & ".cls"
-        componentType = vbext_ct_ClassModule
+        url = "https://raw.githubusercontent.com/NULL-Marshall/Excel-Inventories/main/classes/" & name & ".cls"
+        componentType = 2  ' vbext_ct_ClassModule is 2
     End If
     
     Set httpRequest = CreateObject("MSXML2.XMLHTTP")
@@ -34,7 +35,7 @@ Sub Load(name As String, isModule As Boolean)
             MsgBox "Component '" & name & "' updated successfully!", vbInformation
         Else
             Set newComponent = ThisWorkbook.VBProject.VBComponents.Add(componentType)
-            newComponent.name = name
+            newComponent.Name = name
             newComponent.CodeModule.AddFromString responseBody
             MsgBox "Component '" & name & "' imported successfully!", vbInformation
         End If
@@ -44,7 +45,6 @@ Sub Load(name As String, isModule As Boolean)
     
     Set httpRequest = Nothing
 End Sub
-
 
 Sub check(name As String, version As String, desc As String, isModule As Boolean)
     Dim ws As Worksheet
