@@ -129,7 +129,7 @@ Public Sub Update()
     For i = LBound(dataArray2D, 1) To UBound(dataArray2D, 1) - 1
         If Not IsEmpty(dataArray2D(i, 2)) Then
             isModule = (dataArray2D(i, 1) = "M")
-            Call check(dataArray2D(i, 2), ataArray2D(i, 3), dataArray2D(i, 4), isModule)
+            Call check(dataArray2D(i, 2), dataArray2D(i, 3), dataArray2D(i, 4), isModule)
         End If
     Next i
 End Sub
