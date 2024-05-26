@@ -11,10 +11,10 @@ Sub Load(name As String, isModule As Boolean)
 
     ' Set the URL and component type based on whether it's a module or a class
     If isModule Then
-        url = "https://raw.githubusercontent.com/NULL-Marshall/Excel-Inventories/main/modules/" & name & ".bas"
+        url = "https://raw.githubusercontent.com/NULL-Marshall/Excel-Inventories/main/Modules/" & name & ".bas"
         componentType = 1  ' vbext_ct_StdModule is 1
     Else
-        url = "https://raw.githubusercontent.com/NULL-Marshall/Excel-Inventories/main/classes/" & name & ".cls"
+        url = "https://raw.githubusercontent.com/NULL-Marshall/Excel-Inventories/main/Classes/" & name & ".cls"
         componentType = 2  ' vbext_ct_ClassModule is 2
     End If
     
